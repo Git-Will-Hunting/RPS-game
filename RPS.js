@@ -24,11 +24,13 @@ function getUserChoice(userInput) {
 }
 
 // define variables for user choice and computer choice
-const computerChoice = getComputerChoice();
-const userChoice = getUserChoice('rock');
+const computerChoice = '';
+const userChoice = '';
 
-// state choices and determine result
+// each round state choices and determine result
 function playRound(userChoice, computerChoice) {
+    userChoice = getUserChoice();
+    computerChoice = getComputerChoice();
     console.log('Computer threw: ' + computerChoice);
     console.log('You threw: ' + userChoice);
     if (userChoice === computerChoice) {
@@ -56,3 +58,27 @@ function playRound(userChoice, computerChoice) {
         }
     }
 }
+
+// play game
+function playGame() {
+    let userScore = 0;
+    let computerScore = 0;
+    let rounds = prompt('How many rounds would you like to play? (odd number between 1 and 9)')
+    for (let i = 0; i < rounds; i++) {
+        const roundResult = playRound(userChoice, computerChoice);
+        console.log(roundResult);
+        if (roundResult === 'You won!') {
+            userScore++;
+        } else if (roundResult === 'Computer won!') {
+            computerScore++;
+        }
+    }
+    if (userScore > computerScore) {
+        console.log('You won the game!');
+    } else if (userScore < computerScore) {
+        console.log('Computer won the game!');
+    } else {
+        console.log('The game is a tie!');
+    }
+}
+playGame();
