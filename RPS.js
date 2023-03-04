@@ -20,6 +20,7 @@ function getUserChoice(userInput) {
     } else {
         console.log('Error!');
         alert('Error! Please enter rock, paper, or scissors.');
+        return getUserChoice(userInput);
     }
 }
 
@@ -34,7 +35,8 @@ function playRound(userChoice, computerChoice) {
     console.log('Computer threw: ' + computerChoice);
     console.log('You threw: ' + userChoice);
     if (userChoice === computerChoice) {
-        return 'The game is a tie!';
+        console.log('The round is a tie! Play again.');
+        return playRound(userChoice, computerChoice);
     }
     if (userChoice === 'rock') {
         if (computerChoice === 'paper') {
