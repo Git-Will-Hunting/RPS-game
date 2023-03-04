@@ -22,8 +22,10 @@ function getUserChoice(userInput) {
     }
     else userInput = userInput.toLowerCase();
     if (userInput === 'rock' || userInput === 'paper' || userInput === 'scissors') {
+        console.log('User entered: ' + userInput);
         return userInput;
     } else {
+        console.log(userInput);
         console.log('Error! user entered invalid input.');
         alert('Error! Please enter rock, paper, or scissors.');
         return getUserChoice(userInput);
@@ -76,15 +78,19 @@ function getRounds() {
         return getRounds();
     }
     if (isNaN(rounds)) {
+        console.log(rounds);
         console.log('Error! user entered a non-number.');
         alert('Error! Please enter an odd number between 1 and 9.');
         return getRounds();
     }
     if (rounds % 2 === 0) {
+        console.log(rounds);
         console.log('Error! user entered an even number.');
         alert('Error! Please enter an odd number between 1 and 9.');
         return getRounds();
     } else {
+        rounds = parseInt(rounds);
+        console.log('Number of rounds chosen: ' + rounds);
         return rounds;
     }
 }
