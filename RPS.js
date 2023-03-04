@@ -14,11 +14,17 @@ function getComputerChoice() {
 
 // get user choice & validate
 function getUserChoice(userInput) {
-    userInput = prompt(' Please select your tool').toLowerCase();
+    userInput = prompt(' Please select your tool')
+    if (userInput === null) {
+        console.log('Error! user cancelled input.');
+        alert('Error! Please enter rock, paper, or scissors.');
+        return getUserChoice(userInput);
+    }
+    else userInput = userInput.toLowerCase();
     if (userInput === 'rock' || userInput === 'paper' || userInput === 'scissors') {
         return userInput;
     } else {
-        console.log('Error!');
+        console.log('Error! user entered invalid input.');
         alert('Error! Please enter rock, paper, or scissors.');
         return getUserChoice(userInput);
     }
@@ -61,11 +67,33 @@ function playRound(userChoice, computerChoice) {
     }
 }
 
-// play game
+// decide number of rounds
+function getRounds() {
+    let rounds = prompt('How many rounds would you like to play? (odd number between 1 and 9)');
+    if (rounds === null) {
+        console.log('Error! user cancelled input.');
+        alert('Error! Please enter an odd number between 1 and 9.');
+        return getRounds();
+    }
+    if (isNaN(rounds)) {
+        console.log('Error! user entered a non-number.');
+        alert('Error! Please enter an odd number between 1 and 9.');
+        return getRounds();
+    }
+    if (rounds % 2 === 0) {
+        console.log('Error! user entered an even number.');
+        alert('Error! Please enter an odd number between 1 and 9.');
+        return getRounds();
+    } else {
+        return rounds;
+    }
+}
+
+// define game function
 function playGame() {
     let userScore = 0;
     let computerScore = 0;
-    let rounds = prompt('How many rounds would you like to play? (odd number between 1 and 9)')
+    const rounds = getRounds();
     for (let i = 0; i < rounds; i++) {
         const roundResult = playRound(userChoice, computerChoice);
         console.log(roundResult);
@@ -83,4 +111,6 @@ function playGame() {
         console.log('The game is a tie!');
     }
 }
+
+// call game function
 playGame();
