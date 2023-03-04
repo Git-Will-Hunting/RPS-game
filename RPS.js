@@ -14,7 +14,7 @@ function getComputerChoice() {
 
 // get user choice & validate
 function getUserChoice(userInput) {
-    userInput = prompt(' Please select your tool')
+    userInput = prompt(' Please select your tool (rock, paper, or scissors):')
     if (userInput === null) {
         console.log('Error! user cancelled input.');
         alert('Error! Please enter rock, paper, or scissors.');
