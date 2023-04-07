@@ -4,6 +4,7 @@ const options = document.querySelectorAll('.options > button');
 const startBtn = document.querySelector('.start');
 const roundsEntry = document.querySelector('.rounds > input');
 const scoresTable = document.querySelector('.scores');
+const msgText = document.querySelector('.message > p');
 
 // set required variables
 let roundsPlayed = 0;
@@ -39,6 +40,11 @@ function updateTable() {
     }
 }
 
+// round message
+function roundMessage(msg) {
+    msgText.innerHTML = msg;
+}
+    
 // each round state choices and determine result
 function playRound(e, computerChoice) {
     userChoice = this.name;
@@ -46,47 +52,53 @@ function playRound(e, computerChoice) {
     console.log('Computer threw: ' + computerChoice);
     console.log('You threw: ' + userChoice);
     if (userChoice === computerChoice) {
-        console.log('The round is a tie! Play again.');
+        roundMessage('The round is a tie! Play again.');
         return;
     }
     if (userChoice === 'rock') {
         roundsPlayed += 1;
         if (computerChoice === 'paper') {
             computerScore++;
-            console.log('Computer won!');
+            roundMessage(`Computer won! ${computerChoice} beats ${userChoice} <br>
+            ${rounds - roundsPlayed} round(s) left!`);
         } else {
             userScore++;
-            console.log('You won!');
+            roundMessage(`You won! ${userChoice} beats ${computerChoice} <br>
+            ${rounds - roundsPlayed} round(s) left!`);
         }
     }
     if (userChoice === 'paper') {
         roundsPlayed += 1;
         if (computerChoice === 'scissors') {
             computerScore++;
-            console.log('Computer won!');
+            roundMessage(`Computer won! ${computerChoice} beats ${userChoice} <br>
+            ${rounds - roundsPlayed} round(s) left!`);
         } else {
             userScore++;
-            console.log('You won!');
+            roundMessage(`You won! ${userChoice} beats ${computerChoice} <br>
+            ${rounds - roundsPlayed} round(s) left!`);
         }
     }
     if (userChoice === 'scissors') {
         roundsPlayed += 1;
         if (computerChoice === 'rock') {
             computerScore++;
-            console.log('Computer won!');
+            roundMessage(`Computer won! ${computerChoice} beats ${userChoice} <br>
+            ${rounds - roundsPlayed} round(s) left!`);
         } else {
             userScore++;
-            console.log('You won!');
+            roundMessage(`You won! ${userChoice} beats ${computerChoice} <br>
+            ${rounds - roundsPlayed} round(s) left!`);
         }
     }
     updateTable();        
     if (roundsPlayed === rounds){
         if (userScore > computerScore) {
-            alert('You won the game!');
+            roundMessage('You won the game!');
         } else if (userScore < computerScore) {
-            alert('Computer won the game!');
+            roundMessage('Computer won the game!');
         } else {
-            console.log('The game is a tie!');
+            roundMessage('The game is a tie!');
         }
     }
 }
@@ -114,6 +126,7 @@ function getRounds() {
         rounds = parseInt(rounds);
         console.log('Number of rounds chosen: ' + rounds);
     }
+    roundMessage('You have chosen ' + rounds + ' rounds. Click on your choice to start the game.');
     return rounds;
 }
 

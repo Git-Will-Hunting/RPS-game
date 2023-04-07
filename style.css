@@ -29,10 +29,13 @@ body {
 }
 .scores {
     text-align: center;
-    font-size: 20px;
-    padding: 20px;
-    
+    font-size: 20px;    
 }
 .scores tr th {
     padding: 20px;
+}
+.message {
+    font-size: 20px;
+    padding: 5px;
+    text-align: center;
 }
