@@ -11,20 +11,22 @@
 </head>
 <body>
     <div class="rounds">
-        <p>How many rounds would you like to play?</p>
-        <input><button class="start">Start</button>
+        <p class="message">How many rounds would you like to play?
+        <br>Choose an odd number between 1 and 99 to start the game.
+        </p>
+        <input type="number" name="rounds" min="1" max="99" step="2">
+        <button class="start">Start</button>
     </div>
+   
     <div class="options">
         <button name="rock">Rock</button>
         <button name="paper">Paper</button>
         <button name="scissors">Scissors</button>
     </div>
-    <div class="message">
-        <p>Let's play!</p>
-    <div>
+    <div class="table-container">
         <table class="scores">
             <tr>
-                <th>Round</th><th>You</th><th>Computer</th><th>Your Score</th><th>Computer Score</th>
+                <th>Round</th><th>You Picked</th><th>Computer Picked</th><th>Your Score</th><th>Computer Score</th>
             </tr>
         </table>
     </div>

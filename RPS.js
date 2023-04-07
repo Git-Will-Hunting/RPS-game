@@ -4,7 +4,7 @@ const options = document.querySelectorAll('.options > button');
 const startBtn = document.querySelector('.start');
 const roundsEntry = document.querySelector('.rounds > input');
 const scoresTable = document.querySelector('.scores');
-const msgText = document.querySelector('.message > p');
+const msgText = document.querySelector('.message');
 
 // set required variables
 let roundsPlayed = 0;
@@ -34,9 +34,12 @@ function getComputerChoice() {
 function updateTable() {
     scores.push([roundsPlayed, userChoice, computerChoice, userScore, computerScore]);
     scoresTable.innerHTML = '';
-    scoresTable.innerHTML = '<tr><th>Round</th><th>You</th><th>Computer</th><th>Your Score</th><th>Computer Score</th></tr>';
+    scoresTable.innerHTML = `<tr><th>Round</th><th>You Picked</th><th>Computer Picked</th>
+    <th>Your Score</th><th>Computer Score</th></tr>`;
     for (let i = 0; i < scores.length; i++) {
-        scoresTable.innerHTML += '<tr><td>' + scores[i][0] + '</td><td>' + scores[i][1] + '</td><td>' + scores[i][2] + '</td><td>' + scores[i][3] + '</td><td>' + scores[i][4] + '</td></tr>';
+        scoresTable.innerHTML += '<tr><td>' + scores[i][0] + '</td><td>' + scores[i][1] +
+        '</td><td>' + scores[i][2] + '</td><td>' + scores[i][3] + '</td><td>' + scores[i][4] +
+        '</td></tr>';
     }
 }
 
@@ -49,10 +52,9 @@ function roundMessage(msg) {
 function playRound(e, computerChoice) {
     userChoice = this.name;
     computerChoice = getComputerChoice();
-    console.log('Computer threw: ' + computerChoice);
-    console.log('You threw: ' + userChoice);
     if (userChoice === computerChoice) {
-        roundMessage('The round is a tie! Play again.');
+        roundMessage(`The round is a tie! <br>
+        Pick again.`);
         return;
     }
     if (userChoice === 'rock') {
@@ -93,10 +95,13 @@ function playRound(e, computerChoice) {
     }
     updateTable();        
     if (roundsPlayed === rounds){
+        options.forEach(button => button.removeEventListener('click', playRound));
         if (userScore > computerScore) {
-            roundMessage('You won the game!');
+            roundMessage(`You won the game! ${userScore} to ${computerScore}
+            <br> Click on 'Start' to play again!`);
         } else if (userScore < computerScore) {
-            roundMessage('Computer won the game!');
+            roundMessage(`Computer won the game! ${computerScore} to ${userScore}
+            <br> Click on 'Start' to play again!`);
         } else {
             roundMessage('The game is a tie!');
         }
@@ -106,38 +111,44 @@ function playRound(e, computerChoice) {
 // decide number of rounds
 function getRounds() {
     rounds = roundsEntry.value;
-    if (rounds === null) {
-        console.log('Error! user cancelled input.');
+    if (rounds === '') {
+        console.error(`Error! user entered nothing: ${rounds}`);
         alert('Error! Please enter an odd number between 1 and 9.');
-        
+        return;
     }
     if (isNaN(rounds)) {
-        console.log(rounds);
-        console.log('Error! user entered a non-number.');
+        console.error(`Error! user entered a non-number: ${rounds}`);
         alert('Error! Please enter an odd number between 1 and 9.');
-        
+        return;
     }
     if (rounds % 2 === 0) {
-        console.log(rounds);
-        console.log('Error! user entered an even number.');
+        console.error(`Error! user entered an even number. ${rounds}`);
         alert('Error! Please enter an odd number between 1 and 9.');
-        
+        return;
     } else {
         rounds = parseInt(rounds);
         console.log('Number of rounds chosen: ' + rounds);
     }
-    roundMessage('You have chosen ' + rounds + ' rounds. Click on your choice to start the game.');
+    roundMessage(`You have chosen ${rounds} round(s). <br>
+    Click on your choice to start the game.`);
     return rounds;
 }
 
 // define game function
 function newGame() {
+    options.forEach(button => button.removeEventListener('click', playRound));
+    roundMessage(`How many rounds would you like to play?
+    <br>Choose an odd number between 1 and 99 to start the game.`);
     userScore = 0;
     computerScore = 0;
     roundsPlayed = 0;
     rounds = getRounds();
+    roundsEntry.value = '';
+    if(rounds > 0) {
+        options.forEach(button => button.addEventListener('click', playRound));
+    }
     scores.length = 0;
-    scoresTable.innerHTML = '<tr><th>Round</th><th>You</th><th>Computer</th><th>Your Score</th><th>Computer Score</th></tr>';
+    scoresTable.innerHTML = '<tr><th>Round</th><th>You Picked</th><th>Computer Picked</th><th>Your Score</th><th>Computer Score</th></tr>';
     console.log('New game started!');
 }
 
@@ -145,5 +156,4 @@ function newGame() {
 // playGame();
 
 // link buttons to functions
-options.forEach(button => button.addEventListener('click', playRound));
 startBtn.addEventListener('click', newGame);
