@@ -1,122 +1,136 @@
-alert('Welcome to Rock, Paper, Scissors!');
+//alert('Welcome to Rock, Paper, Scissors!');
+// get all interactive elements
+const options = document.querySelectorAll('.options > button');
+const startBtn = document.querySelector('.start');
+const roundsEntry = document.querySelector('.rounds > input');
+const scoresTable = document.querySelector('.scores');
+
+// set required variables
+let roundsPlayed = 0;
+let userChoice = '';
+let computerChoice = '';
+let userScore = 0;
+let computerScore = 0;
+const scores = [];
+
+
 // get computer choice
 function getComputerChoice() {
     const randomNumber = Math.floor(Math.random() * 3);
     switch (randomNumber) {
         case 0:
+            computerChoice = 'rock';
             return 'rock';
         case 1:
+            computerChoice = 'paper';
             return 'paper';
         case 2:
+            computerChoice = 'scissors';
             return 'scissors';
     }
 }
-
-// get user choice & validate
-function getUserChoice(userInput) {
-    userInput = prompt(' Please select your tool (rock, paper, or scissors):')
-    if (userInput === null) {
-        console.log('Error! user cancelled input.');
-        alert('Error! Please enter rock, paper, or scissors.');
-        return getUserChoice(userInput);
-    }
-    else userInput = userInput.toLowerCase();
-    if (userInput === 'rock' || userInput === 'paper' || userInput === 'scissors') {
-        console.log('User entered: ' + userInput);
-        return userInput;
-    } else {
-        console.log(userInput);
-        console.log('Error! user entered invalid input.');
-        alert('Error! Please enter rock, paper, or scissors.');
-        return getUserChoice(userInput);
+// update scores table
+function updateTable() {
+    scores.push([roundsPlayed, userChoice, computerChoice, userScore, computerScore]);
+    scoresTable.innerHTML = '';
+    scoresTable.innerHTML = '<tr><th>Round</th><th>You</th><th>Computer</th><th>Your Score</th><th>Computer Score</th></tr>';
+    for (let i = 0; i < scores.length; i++) {
+        scoresTable.innerHTML += '<tr><td>' + scores[i][0] + '</td><td>' + scores[i][1] + '</td><td>' + scores[i][2] + '</td><td>' + scores[i][3] + '</td><td>' + scores[i][4] + '</td></tr>';
     }
 }
 
-// define variables for user choice and computer choice
-const computerChoice = '';
-const userChoice = '';
-
 // each round state choices and determine result
-function playRound(userChoice, computerChoice) {
-    userChoice = getUserChoice();
+function playRound(e, computerChoice) {
+    userChoice = this.name;
     computerChoice = getComputerChoice();
     console.log('Computer threw: ' + computerChoice);
     console.log('You threw: ' + userChoice);
     if (userChoice === computerChoice) {
         console.log('The round is a tie! Play again.');
-        return playRound(userChoice, computerChoice);
+        return;
     }
     if (userChoice === 'rock') {
+        roundsPlayed += 1;
         if (computerChoice === 'paper') {
-            return 'Computer won!';
+            computerScore++;
+            console.log('Computer won!');
         } else {
-            return 'You won!';
+            userScore++;
+            console.log('You won!');
         }
     }
     if (userChoice === 'paper') {
+        roundsPlayed += 1;
         if (computerChoice === 'scissors') {
-            return 'Computer won!';
+            computerScore++;
+            console.log('Computer won!');
         } else {
-            return 'You won!';
+            userScore++;
+            console.log('You won!');
         }
     }
     if (userChoice === 'scissors') {
+        roundsPlayed += 1;
         if (computerChoice === 'rock') {
-            return 'Computer won!';
+            computerScore++;
+            console.log('Computer won!');
         } else {
-            return 'You won!';
+            userScore++;
+            console.log('You won!');
+        }
+    }
+    updateTable();        
+    if (roundsPlayed === rounds){
+        if (userScore > computerScore) {
+            alert('You won the game!');
+        } else if (userScore < computerScore) {
+            alert('Computer won the game!');
+        } else {
+            console.log('The game is a tie!');
         }
     }
 }
 
 // decide number of rounds
 function getRounds() {
-    let rounds = prompt('How many rounds would you like to play? (odd number between 1 and 9)');
+    rounds = roundsEntry.value;
     if (rounds === null) {
         console.log('Error! user cancelled input.');
         alert('Error! Please enter an odd number between 1 and 9.');
-        return getRounds();
+        
     }
     if (isNaN(rounds)) {
         console.log(rounds);
         console.log('Error! user entered a non-number.');
         alert('Error! Please enter an odd number between 1 and 9.');
-        return getRounds();
+        
     }
     if (rounds % 2 === 0) {
         console.log(rounds);
         console.log('Error! user entered an even number.');
         alert('Error! Please enter an odd number between 1 and 9.');
-        return getRounds();
+        
     } else {
         rounds = parseInt(rounds);
         console.log('Number of rounds chosen: ' + rounds);
-        return rounds;
     }
+    return rounds;
 }
 
 // define game function
-function playGame() {
-    let userScore = 0;
-    let computerScore = 0;
-    const rounds = getRounds();
-    for (let i = 0; i < rounds; i++) {
-        const roundResult = playRound(userChoice, computerChoice);
-        console.log(roundResult);
-        if (roundResult === 'You won!') {
-            userScore++;
-        } else if (roundResult === 'Computer won!') {
-            computerScore++;
-        }
-    }
-    if (userScore > computerScore) {
-        console.log('You won the game!');
-    } else if (userScore < computerScore) {
-        console.log('Computer won the game!');
-    } else {
-        console.log('The game is a tie!');
-    }
+function newGame() {
+    userScore = 0;
+    computerScore = 0;
+    roundsPlayed = 0;
+    rounds = getRounds();
+    scores.length = 0;
+    scoresTable.innerHTML = '<tr><th>Round</th><th>You</th><th>Computer</th><th>Your Score</th><th>Computer Score</th></tr>';
+    console.log('New game started!');
 }
 
 // call game function
-playGame();
+// playGame();
+
+// link buttons to functions
+options.forEach(button => button.addEventListener('click', playRound));
+startBtn.addEventListener('click', newGame);
