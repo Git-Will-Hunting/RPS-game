@@ -4,10 +4,29 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="style.css"/>
     <title>Rock, Paper, Scissors</title>
+    <h1>Rock, Paper, Scissors Game</h1>
+    
 </head>
 <body>
-    <div><p>This page is in development. Please inspect the page to see the console log where the game actions are recorded. In future I will create a UI for the game.</p></div>
-    <script src="RPS.js"></script>
+    <div class="rounds">
+        <p>How many rounds would you like to play?</p>
+        <input><button class="start">Start</button>
+    </div>
+    <div class="options">
+        <button name="rock">Rock</button>
+        <button name="paper">Paper</button>
+        <button name="scissors">Scissors</button>
+    </div>
+    <div>
+        <table class="scores">
+            <tr>
+                <th>Round</th><th>You</th><th>Computer</th><th>Your Score</th><th>Computer Score</th>
+            </tr>
+        </table>
+    </div>
+    
 </body>
+<script src="RPS.js"></script>
 </html>
