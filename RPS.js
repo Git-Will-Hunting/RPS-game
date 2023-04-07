@@ -157,3 +157,4 @@ function newGame() {
 
 // link buttons to functions
 startBtn.addEventListener('click', newGame);
+startBtn.addEventListener('touch', newGame);
